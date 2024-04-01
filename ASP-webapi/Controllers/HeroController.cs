@@ -1,5 +1,5 @@
-﻿using ASP_HeroWebApi.Data;
-using ASP_HeroWebApi.Models.Entities;
+﻿using ASP_webapi.Data;
+using ASP_webapi.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

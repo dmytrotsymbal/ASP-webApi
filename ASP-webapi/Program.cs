@@ -1,4 +1,4 @@
-using ASP_HeroWebApi.Data;
+using ASP_webapi.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

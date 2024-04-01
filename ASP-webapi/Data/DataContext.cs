@@ -1,7 +1,7 @@
-﻿using ASP_HeroWebApi.Models.Entities;
+﻿using ASP_webapi.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace ASP_HeroWebApi.Data
+namespace ASP_webapi.Data
 {
     public class DataContext : DbContext
     {

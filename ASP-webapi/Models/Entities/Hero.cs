@@ -1,4 +1,4 @@
-﻿namespace ASP_HeroWebApi.Models.Entities
+﻿namespace ASP_webapi.Models.Entities
 {
     public class Hero
     {
