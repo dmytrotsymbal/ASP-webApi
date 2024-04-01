@@ -19,21 +19,18 @@ namespace ASP_webapi.Controllers
 
         // GET ALL HEROES ================
         [HttpGet]
-        public async Task<IActionResult> GetHeroes(int page = 1, int pageSize = 10)
+        public async Task<IActionResult> GetHeroes()
         {
-            var offset = (page - 1) * pageSize;
+            var heroes = await dbContext.Heroes
+                                        .Include(h => h.Images) // Завантажити зображення за допомогою eager loading
+                                        .ToListAsync();
 
-            var heroes = await dbContext.Heroes.ToListAsync();
-
-            if (heroes == null)
-            {
-                return NotFound();
-            }
-
-            heroes = heroes.Skip(offset).Take(pageSize).ToList();
+            // Якщо колекція зображень порожня, ініціалізувати її як порожній список, щоб уникнути виведення null
+            heroes.ForEach(hero => hero.Images ??= new List<HeroImage>());
 
             return Ok(heroes);
         }
+
 
         // SEARCH HEROES BY NAME ================
         [HttpGet("search")]
@@ -83,7 +80,7 @@ namespace ASP_webapi.Controllers
             dbHero.Name = hero.Name;
             dbHero.FirstName = hero.FirstName;
             dbHero.LastName = hero.LastName;
-            dbHero.Image = hero.Image;
+            dbHero.Images = hero.Images;
             dbHero.Description = hero.Description;
             dbHero.Age = hero.Age;
             dbHero.SuperPower = hero.SuperPower;
