@@ -19,10 +19,27 @@ namespace ASP_webapi.Controllers
 
         // GET ALL HEROES ================
         [HttpGet]
-        public async Task<IActionResult> GetHeroes()
+        public async Task<IActionResult> GetHeroes(int page = 1, int pageSize = 10)
         {
+            var offset = (page - 1) * pageSize;
+
             var heroes = await dbContext.Heroes.ToListAsync();
 
+            if (heroes == null)
+            {
+                return NotFound();
+            }
+
+            heroes = heroes.Skip(offset).Take(pageSize).ToList();
+
+            return Ok(heroes);
+        }
+
+        // SEARCH HEROES BY NAME ================
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchHeroesByName(string name)
+        {
+            var heroes = await dbContext.Heroes.Where(h => h.Name.Contains(name)).ToListAsync();
             return Ok(heroes);
         }
 
@@ -92,6 +109,17 @@ namespace ASP_webapi.Controllers
             await dbContext.SaveChangesAsync();
 
             return NoContent();
+        }
+
+
+        // GET TOTAL COUNT OF HEROES ============
+
+        [HttpGet("count")]
+        public async Task<IActionResult> GetTotalCountOfHeroes()
+        {
+            var count = await dbContext.Heroes.CountAsync();
+
+            return Ok(count);
         }
     }
 }
